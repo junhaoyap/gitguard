@@ -7,7 +7,7 @@ chai.config.includeStack = true;
 
 describe('## Misc', () => {
   describe('# GET /api/health-check', () => {
-    it('should return OK', (done) => {
+    it('should return OKAY', (done) => {
       request(app)
         .get('/api/health-check')
         .expect(httpStatus.OK)
