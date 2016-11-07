@@ -85,4 +85,54 @@ function gitBlame(req, res) {
 	);
 }
 
-export default { gitBlame, gitGet };
+function gitCommit(req, res) {
+	if (req.query.repoName) {
+		var repoName = decodeURI(req.query.repoName);
+	}
+
+	var options = {
+		host: 'api.github.com',
+    path: '/repos/' + repoName + '/stats/contributors',
+		method: 'GET',
+    headers: {'user-agent': 'node.js'}
+	};
+
+	console.log(options);
+
+  new require('https').get(options, function(response) {
+		response.setEncoding('utf8');
+		var allData = ''
+		response.on('data', function(data) {
+      allData += data;
+    });
+		response.on('end', function() {
+			var contributors = [];
+
+			function ignoreCaseComparator(s1, s2) {
+				var s1lower = s1.toLowerCase();
+				var s2lower = s2.toLowerCase();
+				return s1lower > s2lower? 1 : (s1lower < s2lower? -1 : 0);
+			}
+
+			var data = JSON.parse(allData);
+
+			// Add contributors into contributors array
+			for (var i = 0; i < data.length; i++) {
+				contributors.push(data[i]['author']['login']);
+			}
+
+			contributors.sort(ignoreCaseComparator);
+
+			return res.json({
+				'res': contributors
+			});
+		});
+		response.on('error', function(err) {
+			return res.json({
+				'res': 'error'
+			});
+		});
+	});
+}
+
+export default { gitBlame, gitGet, gitCommit };

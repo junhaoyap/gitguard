@@ -11,4 +11,6 @@ router.route('/git-get').get(gitCtrl.gitGet);
 
 router.route('/git-blame').get(gitCtrl.gitBlame);
 
+router.route('/git-commit').get(gitCtrl.gitCommit);
+
 export default router;
