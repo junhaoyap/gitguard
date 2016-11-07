@@ -35,16 +35,18 @@ function gitGet(req, res) {
 }
 
 function gitBlame(req, res) {
-	if (req.query.url && req.query.folderPath && req.query.file) {
+	if (req.query.url && req.query.folderPath && req.query.file && req.query.sha) {
 		var url = 'https://github.com/' + decodeURI(req.query.url);
 		var filePath = decodeURI(req.query.file);
 		var folderPath = decodeURI(req.query.folderPath);
+		var sha = decodeURI(req.query.sha);
 	}
 	cmd.get(
 		`
 		cd git
 		git clone ${url}
 		cd ${folderPath}
+		git checkout ${sha}
 		git blame -a ${filePath} --line-porcelain
 		`,
 		function(data) {
