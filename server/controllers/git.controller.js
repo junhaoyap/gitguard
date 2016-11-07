@@ -60,7 +60,11 @@ function gitBlame(req, res) {
 				var line = dataArr[i];
 
 				if (restart) {
-					sha = line.substring(0, 8);
+					if (line.includes("Your branch")) {
+						sha = 'master';
+					} else {
+						sha = line.substring(0, 8);
+					}
 					restart = false;
 				}
 
