@@ -13,7 +13,8 @@
     "start": "gulp serve",
     "build": "gulp",
     "lint": "esw *.js server config --color",
-    "lint:watch": "npm run lint -- --watch"
+    "lint:watch": "npm run lint -- --watch",
+    "test": "NODE_ENV=test babel-node node_modules/.bin/isparta cover _mocha -- --ui bdd --reporter spec --colors --compilers js:babel-core/register ./server/**/*.test.js"
   },
   "repository": {
     "type": "git",
