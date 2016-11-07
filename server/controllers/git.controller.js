@@ -42,6 +42,7 @@ function gitGet(req, res) {
 function gitBlame(req, res) {
 	cmd.get(
 			`
+			git clone https://github.com/tungnk1993/scrapy git/scrapy
 			cd git/scrapy
 			git blame scrapy/crawler.py --line-porcelain
 			`,
